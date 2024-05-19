@@ -23,6 +23,15 @@ namespace LightHTMLSharp.Models
             ChildNodes = childNodes;
         }
 
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+            foreach (var childNode in ChildNodes)
+            {
+                childNode.Accept(visitor);
+            }
+        }
+
         public override string OuterHTML
         {
             get
@@ -30,7 +39,6 @@ namespace LightHTMLSharp.Models
                 StringBuilder htmlBuilder = new StringBuilder();
                 htmlBuilder.Append($"<{TagName}");
 
-                // Додавання класів CSS
                 if (CssClasses != null && CssClasses.Count > 0)
                 {
                     htmlBuilder.Append(" class=\"");
@@ -40,13 +48,11 @@ namespace LightHTMLSharp.Models
 
                 htmlBuilder.Append(">");
 
-                // Додавання внутрішніх елементів
                 foreach (var childNode in ChildNodes)
                 {
                     htmlBuilder.Append(childNode.OuterHTML);
                 }
 
-                // Закриваючий тег
                 if (ClosingType == "dual")
                 {
                     htmlBuilder.Append($"</{TagName}>");
@@ -65,12 +71,10 @@ namespace LightHTMLSharp.Models
             get
             {
                 StringBuilder htmlBuilder = new StringBuilder();
-
                 foreach (var childNode in ChildNodes)
                 {
                     htmlBuilder.Append(childNode.OuterHTML);
                 }
-
                 return htmlBuilder.ToString();
             }
         }

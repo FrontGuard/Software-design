@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace LightHTMLSharp.Models
 {
-    public class LightNode
+    public abstract class LightNode
     {
-        public virtual string OuterHTML { get; }
-        public virtual string InnerHTML { get; }
+        public abstract string OuterHTML { get; }
+        public abstract string InnerHTML { get; }
+        public abstract void Accept(IVisitor visitor);
     }
 }
