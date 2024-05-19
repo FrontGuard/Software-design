@@ -13,6 +13,7 @@ namespace LightHTMLSharp.Models
         public string ClosingType { get; }
         public List<string> CssClasses { get; }
         public List<LightNode> ChildNodes { get; }
+        public IState State { get; private set; }
 
         public LightElementNode(string tagName, string displayType, string closingType, List<string> cssClasses, List<LightNode> childNodes)
         {
@@ -21,6 +22,13 @@ namespace LightHTMLSharp.Models
             ClosingType = closingType;
             CssClasses = cssClasses;
             ChildNodes = childNodes;
+            State = new ReadOnlyState(); // Встановлюємо початковий стан
+        }
+
+        public void SetState(IState state)
+        {
+            State = state;
+            State.Render(this);
         }
 
         public override string OuterHTML
