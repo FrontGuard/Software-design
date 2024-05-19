@@ -74,5 +74,9 @@ namespace LightHTMLSharp.Models
                 return htmlBuilder.ToString();
             }
         }
+        public IIterator CreateIterator()
+        {
+            return new HTMLIterator(ChildNodes);
+        }
     }
 }
